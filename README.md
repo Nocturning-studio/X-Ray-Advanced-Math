@@ -1,7 +1,7 @@
 # X-Ray Advanced Math
 
 <p align="center">
-  <img src="https://img.shields.io/badge/C%2B%2B-17-blue" alt="C++ Standard">
+  <img src="https://img.shields.io/badge/C%2B%2B-23-blue" alt="C++ Standard">
   <a href="https://github.com/Nocturning-studio/X-Ray-Advanced-Math/actions/workflows/build.yml">
     <img src="https://github.com/Nocturning-studio/X-Ray-Advanced-Math/actions/workflows/build.yml/badge.svg" alt="Build Status">
   </a>

@@ -27,7 +27,7 @@ else()
     target_compile_options(xrMathTests PRIVATE -msse4.2)
 endif()
 
-target_compile_features(xrMathTests PRIVATE cxx_std_17)
+target_compile_features(xrMathTests PRIVATE cxx_std_23)
 
 set_source_files_properties(
     ${TEST_HEADERS}

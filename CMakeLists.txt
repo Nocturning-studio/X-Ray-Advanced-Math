@@ -5,7 +5,7 @@ add_library(xrMath INTERFACE)
 target_include_directories(xrMath INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
-target_compile_features(xrMath INTERFACE cxx_std_17)
+target_compile_features(xrMath INTERFACE cxx_std_23)
 
 if(MSVC)
     target_compile_options(xrMath INTERFACE /W3)

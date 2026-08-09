@@ -95,20 +95,20 @@ template <class T> struct template_color
 	}
 	IC u32 get_windows() const
 	{
-		BYTE _a, _r, _g, _b;
-		_a = (BYTE)(a * 255.f);
-		_r = (BYTE)(r * 255.f);
-		_g = (BYTE)(g * 255.f);
-		_b = (BYTE)(b * 255.f);
+		uint8_t _a, _r, _g, _b;
+		_a = (uint8_t)(a * 255.f);
+		_r = (uint8_t)(r * 255.f);
+		_g = (uint8_t)(g * 255.f);
+		_b = (uint8_t)(b * 255.f);
 		return ((u32)(_a << 24) | (_b << 16) | (_g << 8) | (_r));
 	};
 	IC SelfRef set_windows(u32 dw)
 	{
 		const T f = 1.0f / 255.0f;
-		a = f * (T)(BYTE)(dw >> 24);
-		b = f * (T)(BYTE)(dw >> 16);
-		g = f * (T)(BYTE)(dw >> 8);
-		r = f * (T)(BYTE)(dw >> 0);
+		a = f * (T)(uint8_t)(dw >> 24);
+		b = f * (T)(uint8_t)(dw >> 16);
+		g = f * (T)(uint8_t)(dw >> 8);
+		r = f * (T)(uint8_t)(dw >> 0);
 		return *this;
 	};
 	IC SelfRef adjust_contrast(T f) // >1 - contrast will be increased
