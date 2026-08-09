@@ -36,5 +36,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: xrMathTests-${{ matrix.platform }}-${{ matrix.configuration }}
-          path: ${{ env.BUILD_DIR }}/tests/${{ matrix.configuration }}/xrMathTests.exe
+          path: ${{ env.BUILD_DIR }}/autotests/${{ matrix.configuration }}/xrMathTests.exe
           if-no-files-found: ignore

@@ -26,5 +26,5 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run tests
-        working-directory: ${{ runner.temp }}\tests
+        working-directory: ${{ runner.temp }}\autotests
         run: .\xrMathTests.exe
