@@ -8,6 +8,9 @@ constexpr float EPS_S = 0.0000001f;
 constexpr float EPS = 0.0000100f;
 constexpr float EPS_L = 0.0010000f;
 
+constexpr float  FLOAT_EPS = 1e-4f;
+constexpr double DOUBLE_EPS = 1e-8;
+
 constexpr float PI = 3.1415926535897932384626433832795f;
 
 constexpr float PI_MUL_2 = PI * 2;

@@ -73,6 +73,10 @@ IC float _sqrt(float x)
 {
 	return sqrtf(x);
 }
+ICF float _rsqrt(float v)
+{
+	return 1.0f / _sqrt(v);
+}
 IC float _sin(float x)
 {
 	return sinf(x);
@@ -101,6 +105,10 @@ IC double _abs(double x)
 IC double _sqrt(double x)
 {
 	return sqrt(x);
+}
+ICF double _rsqrt(double v)
+{
+	return 1.0 / _sqrt(v);
 }
 IC double _sin(double x)
 {

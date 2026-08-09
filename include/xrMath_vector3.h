@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+#include <sstream>
+
 #include "xrMath_common.h"
 #include "xrMath_constants.h"
 #include "xrMath_utils.h"
@@ -118,6 +121,13 @@ template <class T> struct template_vector3
 		z = a.z - s;
 		return *this;
 	};
+	ICF SelfRef sub(T s, const Self& p)
+	{
+		x = s - p.x;
+		y = s - p.y;
+		z = s - p.z;
+		return *this;
+	}
 
 	ICF SelfRef mul(const Self& v)
 	{
@@ -245,7 +255,7 @@ template <class T> struct template_vector3
 	}
 	ICF BOOL similar(const Self& v, T E = EPS_L) const
 	{
-		return std::abs(x - v.x) < E && std::abs(y - v.y) < E && std::abs(z - v.z) < E;
+		return std::abs(x - v.x) <= E && std::abs(y - v.y) <= E && std::abs(z - v.z) <= E;
 	};
 
 	IC SelfRef set_length(T l)
@@ -572,7 +582,7 @@ template <class T> struct template_vector3
 		}
 		else
 		{
-			if (fis_zero(z))
+			if (fis_zero(z) || z == 0.0f)
 				return (x > 0.0f) ? -PI_DIV_2 : PI_DIV_2;
 			else if (z < 0.0f)
 				return -(atanf(x / z) - PI);
@@ -685,7 +695,7 @@ IC template_vector3<T> operator-(const template_vector3<T>& a, T s) {
 }
 template <class T>
 IC template_vector3<T> operator-(T s, const template_vector3<T>& a) {
-	template_vector3<T> r; r.sub(a, s); return r;
+	template_vector3<T> r; r.sub(s, a); return r;
 }
 
 template <class T>
@@ -739,17 +749,13 @@ template <class T> BOOL _valid(const template_vector3<T>& v)
 
 #pragma warning(push)
 #pragma warning(disable : 4244)
-ICF double rsqrt(double v)
-{
-	return 1.0 / sqrt(v);
-}
 IC BOOL exact_normalize(float* a)
 {
 	double sqr_magnitude = a[0] * a[0] + a[1] * a[1] + a[2] * a[2];
 	double epsilon = 1.192092896e-05F;
 	if (sqr_magnitude > epsilon)
 	{
-		double l = rsqrt(sqr_magnitude);
+		double l = _rsqrt(sqr_magnitude);
 		a[0] *= l;
 		a[1] *= l;
 		a[2] *= l;
@@ -772,7 +778,7 @@ IC BOOL exact_normalize(float* a)
 		{ // aa1 is largest
 			a0 /= aa1;
 			a2 /= aa1;
-			l = rsqrt(a0 * a0 + a2 * a2 + 1);
+			l = _rsqrt(a0 * a0 + a2 * a2 + 1);
 			a[0] = a0 * l;
 			a[1] = (double)_copysign(l, a1);
 			a[2] = a2 * l;
@@ -785,7 +791,7 @@ IC BOOL exact_normalize(float* a)
 		aa2_largest: // aa2 is largest
 			a0 /= aa2;
 			a1 /= aa2;
-			l = rsqrt(a0 * a0 + a1 * a1 + 1);
+			l = _rsqrt(a0 * a0 + a1 * a1 + 1);
 			a[0] = a0 * l;
 			a[1] = a1 * l;
 			a[2] = (double)_copysign(l, a2);
@@ -802,7 +808,7 @@ IC BOOL exact_normalize(float* a)
 			}
 			a1 /= aa0;
 			a2 /= aa0;
-			l = rsqrt(a1 * a1 + a2 * a2 + 1);
+			l = _rsqrt(a1 * a1 + a2 * a2 + 1);
 			a[0] = (double)_copysign(l, a0);
 			a[1] = a1 * l;
 			a[2] = a2 * l;
@@ -810,8 +816,17 @@ IC BOOL exact_normalize(float* a)
 	}
 	return TRUE;
 }
+#pragma warning(pop)
+
 IC BOOL exact_normalize(fvec3& a)
 {
 	return exact_normalize(&a.x);
 }
-#pragma warning(pop)
+
+template <class T>
+std::string to_string(const template_vector3<T>& v)
+{
+	std::ostringstream oss;
+	oss << "(" << v.x << ", " << v.y << ", " << v.z << ")";
+	return oss.str();
+}

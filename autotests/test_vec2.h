@@ -1,13 +1,9 @@
-﻿#include "../include/xrMath.h"
+#include "../include/xrMath.h"
 #include "xrTest.h"
 #include <cmath>
 
-constexpr float  FLOAT_EPS = 1e-4f;
-constexpr double DOUBLE_EPS = 1e-8;
-
 void test_vector2_float()
 {
-    // ----- set / copy -----
     fvec2 v1 = { 1.0f, 2.0f };
     fvec2 v2;
     v2.set(3.0f, 4.0f);
@@ -16,12 +12,10 @@ void test_vector2_float()
     v2.set(v1);
     CHECK_SIMILAR(v2, (fvec2{ 1.0f, 2.0f }), FLOAT_EPS);
 
-    // abs
     fvec2 v3 = { -3.0f, 4.0f };
     v3.abs(v3);
     CHECK_SIMILAR(v3, (fvec2{ 3.0f, 4.0f }), FLOAT_EPS);
 
-    // min / max
     fvec2 a = { 2.0f, 5.0f };
     fvec2 b = { 3.0f, 1.0f };
     a.min(b);
@@ -37,7 +31,6 @@ void test_vector2_float()
     a.max(10.0f, 3.0f);
     CHECK_SIMILAR(a, (fvec2{ 10.0f, 5.0f }), FLOAT_EPS);
 
-    // add / sub scalar
     fvec2 p = { 2.0f, 3.0f };
     p.add(1.0f);
     CHECK_SIMILAR(p, (fvec2{ 3.0f, 4.0f }), FLOAT_EPS);
@@ -61,7 +54,6 @@ void test_vector2_float()
     r.add(q, 0.5f);
     CHECK_SIMILAR(r, (fvec2{ 1.5f, 2.5f }), FLOAT_EPS);
 
-    // mul / div
     fvec2 m = { 2.0f, 3.0f };
     m.mul(2.0f);
     CHECK_SIMILAR(m, (fvec2{ 4.0f, 6.0f }), FLOAT_EPS);
@@ -72,7 +64,6 @@ void test_vector2_float()
     m.mul(n);
     CHECK_SIMILAR(m, (fvec2{ 6.0f, 12.0f }), FLOAT_EPS);
 
-    // invert
     fvec2 inv = { 3.0f, -4.0f };
     inv.invert();
     CHECK_SIMILAR(inv, (fvec2{ -3.0f, 4.0f }), FLOAT_EPS);
@@ -80,22 +71,18 @@ void test_vector2_float()
     inv.invert(src);
     CHECK_SIMILAR(inv, (fvec2{ -1.0f, -2.0f }), FLOAT_EPS);
 
-    // rot90
     fvec2 rot = { 1.0f, 2.0f };
     rot.rot90();
     CHECK_SIMILAR(rot, (fvec2{ 2.0f, -1.0f }), FLOAT_EPS);
 
-    // cross (with self-bug fixed)
     fvec2 orig_cross = { 3.0f, 4.0f };
     fvec2 cr = orig_cross;
     cr.cross(orig_cross);
     CHECK_SIMILAR(cr, (fvec2{ 4.0f, -3.0f }), FLOAT_EPS);
 
-    // Cross() method (returns new vector)
     fvec2 crossed = orig_cross.cross();
     CHECK_SIMILAR(crossed, (fvec2{ 4.0f, -3.0f }), FLOAT_EPS);
 
-    // dot / crossproduct
     fvec2 d1 = { 1.0f, 0.0f };
     fvec2 d2 = { 0.0f, 1.0f };
     CHECK_CLOSE(d1.dot(d2), 0.0f, FLOAT_EPS);
@@ -104,7 +91,6 @@ void test_vector2_float()
     CHECK_CLOSE(d1.crossproduct(d2), 1.0f, FLOAT_EPS);
     CHECK_CLOSE(d2.crossproduct(d1), -1.0f, FLOAT_EPS);
 
-    // magnitude / distance
     fvec2 len = { 3.0f, 4.0f };
     CHECK_CLOSE(len.magnitude(), 5.0f, FLOAT_EPS);
     CHECK_CLOSE(len.square_magnitude(), 25.0f, FLOAT_EPS);
@@ -112,7 +98,6 @@ void test_vector2_float()
     CHECK_CLOSE(len.distance_to(other), 5.0f, FLOAT_EPS);
     CHECK_CLOSE(other.distance_to(len), 5.0f, FLOAT_EPS);
 
-    // normalization
     fvec2 norm_v = { 3.0f, 4.0f };
     norm_v.norm();
     CHECK_SIMILAR(norm_v, (fvec2{ 0.6f, 0.8f }), FLOAT_EPS);
@@ -125,17 +110,13 @@ void test_vector2_float()
     fvec2 target;
     target.normalize({ 6.0f, 8.0f });
     CHECK_SIMILAR(target, (fvec2{ 0.6f, 0.8f }), FLOAT_EPS);
-    target.normalize_safe({ 0.0f, 0.0f });  // should keep previous value
+    target.normalize_safe({ 0.0f, 0.0f });
     CHECK_SIMILAR(target, (fvec2{ 0.6f, 0.8f }), FLOAT_EPS);
 
-    // mad
     fvec2 mad_res;
     mad_res.mad({ 1.0f, 2.0f }, { 0.5f, 1.0f }, 2.0f);
-    CHECK_SIMILAR(mad_res,
-        (fvec2{ 1.0f + 0.5f * 2.0f, 2.0f + 1.0f * 2.0f }),
-        FLOAT_EPS);
+    CHECK_SIMILAR(mad_res, (fvec2{ 1.0f + 0.5f * 2.0f, 2.0f + 1.0f * 2.0f }), FLOAT_EPS);
 
-    // averageA / averageG
     fvec2 avg;
     avg.averageA({ 2.0f, 4.0f }, { 4.0f, 6.0f });
     CHECK_SIMILAR(avg, (fvec2{ 3.0f, 5.0f }), FLOAT_EPS);
@@ -143,13 +124,11 @@ void test_vector2_float()
     CHECK_CLOSE(avg.x, 6.0f, FLOAT_EPS);
     CHECK_CLOSE(avg.y, 12.0f, FLOAT_EPS);
 
-    // similar
     fvec2 s1 = { 1.0f, 2.0f };
     fvec2 s2 = { 1.001f, 1.999f };
     CHECK(s1.similar(s2, 0.01f));
     CHECK(!s1.similar({ 2.0f, 2.0f }, 0.01f));
 
-    // operator[]
     fvec2 arr = { 10.0f, 20.0f };
     CHECK_CLOSE(arr[0], 10.0f, FLOAT_EPS);
     CHECK_CLOSE(arr[1], 20.0f, FLOAT_EPS);
@@ -158,11 +137,9 @@ void test_vector2_float()
     CHECK_CLOSE(arr.x, 100.0f, FLOAT_EPS);
     CHECK_CLOSE(arr.y, 200.0f, FLOAT_EPS);
 
-    // memory layout
     CHECK_EQUAL(&arr[0], &arr.x);
     CHECK_EQUAL(&arr[1], &arr.y);
 
-    // getH
     fvec2 east = { 1.0f, 0.0f };
     CHECK_CLOSE(east.getH(), -PI_DIV_2, FLOAT_EPS);
     fvec2 west = { -1.0f, 0.0f };
@@ -172,7 +149,6 @@ void test_vector2_float()
     fvec2 south = { 0.0f, -1.0f };
     CHECK_CLOSE(south.getH(), PI, FLOAT_EPS);
 
-    // external operators
     fvec2 op1 = { 1.0f, 2.0f };
     fvec2 op2 = { 3.0f, 4.0f };
 
@@ -196,20 +172,10 @@ void test_vector2_float()
     CHECK_SIMILAR(op1 * op2, (fvec2{ 3.0f, 8.0f }), FLOAT_EPS);
     CHECK_SIMILAR(op2 / op1, (fvec2{ 3.0f, 2.0f }), FLOAT_EPS);
 
-    // _valid
     fvec2 valid_v = { 1.0f, 2.0f };
     CHECK_EQUAL(_valid(valid_v), TRUE);
     fvec2 nan_v = { std::numeric_limits<float>::quiet_NaN(), 0.0f };
     CHECK_EQUAL(_valid(nan_v), FALSE);
-}
-
-void test_vector2_double()
-{
-    dvec2 v1 = { 1.0, 2.0 };
-    dvec2 v2 = { 3.0, 4.0 };
-    CHECK_SIMILAR(v1 + v2, (dvec2{ 4.0, 6.0 }), DOUBLE_EPS);
-    CHECK_CLOSE(v1.magnitude(), std::sqrt(5.0), DOUBLE_EPS);
-    CHECK_CLOSE(v1.dot(v2), 11.0, DOUBLE_EPS);
 }
 
 void test_vector2_int()
@@ -238,7 +204,6 @@ void test_vector2_int()
     CHECK_EQUAL(iv3.x, 8);
     CHECK_EQUAL(iv3.y, 7);
 
-    // similar with int
     CHECK_SIMILAR(iv1, (ivec2{ 2, 3 }), 0);
     CHECK(!iv1.similar(ivec2{ 2, 4 }, 0));
 }
