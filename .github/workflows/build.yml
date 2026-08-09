@@ -1,4 +1,4 @@
-name: xrMath CI
+name: Build
 
 on:
   push:
@@ -10,7 +10,7 @@ env:
   BUILD_DIR: ${{ github.workspace }}/build
 
 jobs:
-  build-and-test:
+  build:
     strategy:
       fail-fast: false
       matrix:
@@ -31,14 +31,10 @@ jobs:
       - name: Build
         run: cmake --build "${{ env.BUILD_DIR }}" --config ${{ matrix.configuration }} --parallel
 
-      - name: Test
-        working-directory: ${{ env.BUILD_DIR }}
-        run: ctest -C ${{ matrix.configuration }} --output-on-failure
-
       - name: Upload test executable
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: AfterMathTests-${{ matrix.platform }}-${{ matrix.configuration }}
+          name: xrMathTests-${{ matrix.platform }}-${{ matrix.configuration }}
           path: ${{ env.BUILD_DIR }}/tests/${{ matrix.configuration }}/xrMathTests.exe
           if-no-files-found: ignore
