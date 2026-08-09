@@ -1,14 +1,12 @@
-﻿#include "../include/xrMath.h"
+#include "../include/xrMath.h"
 #include "xrTest.h"
+#include "test_vec2.h"
 
 int main()
 {
-    Fsphere sphere;
-    sphere.identity();
-    CHECK(sphere.R == 1.0f);
-
-    template_vector3<float> point = {0.5f, 0.5f, 0.5f};
-    CHECK(sphere.contains(point));
+    test_vector2_float();
+    test_vector2_double();
+    test_vector2_int();
 
     return TestRunner::instance().printSummary();
 }
